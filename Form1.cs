@@ -25,19 +25,11 @@ namespace Optimade
             // Add it to the form and fill it to the form window.
             this.Controls.Add(CefSharp.chromeBrowser);
             CefSharp.chromeBrowser.Dock = DockStyle.Fill;
-
         }
 
-
-        private bool dragging = false;
-        private Point dragCursorPoint;
-        private Point dragFormPoint;
-
-
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-            (
-            int nLeftRect,     // x-coordinate of upper-left corner
+        static extern IntPtr CreateRoundRectRgn
+            (int nLeftRect,     // x-coordinate of upper-left corner.
             int nTopRect,      // y-coordinate of upper-left corner
             int nRightRect,    // x-coordinate of lower-right corner
             int nBottomRect,   // y-coordinate of lower-right corner
@@ -45,7 +37,11 @@ namespace Optimade
             int nHeightEllipse // height of ellipse
             );
 
-        protected override void OnPaint(PaintEventArgs e)
+        private bool dragging = false;
+        private Point dragCursorPoint;
+        private Point dragFormPoint;
+
+        protected override void OnActivated(EventArgs e)
         {
             this.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
         }
@@ -97,6 +93,16 @@ namespace Optimade
     {
         public static ChromiumWebBrowser chromeBrowser;
 
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        static extern IntPtr CreateRoundRectRgn
+            (int nLeftRect,     // x-coordinate of upper-left corner.
+            int nTopRect,      // y-coordinate of upper-left corner
+            int nRightRect,    // x-coordinate of lower-right corner
+            int nBottomRect,   // y-coordinate of lower-right corner
+            int nWidthEllipse, // width of ellipse
+            int nHeightEllipse // height of ellipse
+            );
+
         public CefSharp()
         {
             CefSettings settings = new CefSettings();
@@ -104,9 +110,14 @@ namespace Optimade
             Cef.Initialize(settings);
             // Create a browser component
             chromeBrowser = new ChromiumWebBrowser(@"file:///C:/C%23/Optimade/Resources/Website/Website.html");
+
+            CefSharp.chromeBrowser.Paint += ChromeBrowser_Paint;
         }
 
-
+        private void ChromeBrowser_Paint(object sender, PaintEventArgs e)
+        {
+            Console.WriteLine("Browser painted");
+        }
 
     }
 }
