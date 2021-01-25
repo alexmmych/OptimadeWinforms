@@ -15,27 +15,17 @@ namespace Optimade
 {
     public partial class Optimade : Form
     {
-        
-        public ChromiumWebBrowser chromeBrowser;
-
-        public void InitializeChromium()
-        {
-            CefSettings settings = new CefSettings();
-            // Initialize cef with the provided settings
-            Cef.Initialize(settings);
-            // Create a browser component
-            chromeBrowser = new ChromiumWebBrowser("www.google.com");
-            // Add it to the form and fill it to the form window.
-            this.Controls.Add(chromeBrowser);
-            chromeBrowser.Dock = DockStyle.Fill;
-        }
-        
-
         public Optimade()
         {
             InitializeComponent();
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            InitializeChromium();
+
+            CefSharp cef = new CefSharp();
+
+            // Add it to the form and fill it to the form window.
+            this.Controls.Add(CefSharp.chromeBrowser);
+            CefSharp.chromeBrowser.Dock = DockStyle.Fill;
+
         }
 
 
@@ -93,6 +83,31 @@ namespace Optimade
         {
             Cef.Shutdown();
         }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                Application.Exit();
+            }
+        }
+    }
+
+    public class CefSharp
+    {
+        public static ChromiumWebBrowser chromeBrowser;
+
+        public CefSharp()
+        {
+            CefSettings settings = new CefSettings();
+            // Initialize cef with the provided settings
+            Cef.Initialize(settings);
+            // Create a browser component
+            chromeBrowser = new ChromiumWebBrowser(@"file:///C:/C%23/Optimade/Resources/Website/Website.html");
+        }
+
+
+
     }
 }
 

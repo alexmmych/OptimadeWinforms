@@ -1,0 +1,42 @@
+<html>
+<head>
+    <link rel="stylesheet" href="WebsiteStyle.css">
+    <script type="text/javascript" src="WebsiteScript.js"></script>
+    <title>Draggable Regions Test</title>
+</head>
+<body bgcolor="#444444" style="margin: 0; height: 100%; overflow: hidden">
+    <div class="caption">
+        <img src="Logo.png" alt="Logo" class="logo">
+        <div class="settings" id="settings">
+            <h3>Settings</h3>
+            <hr class="underline"/>
+        </div>
+        <div class="button" id="close">
+            <img src="CloseButton.png" alt="Close" class="buttonImage">
+        </div>
+        <div class="button" style="right:70px;" id="size">
+            <img src="MaximizeButton.png" alt="Size" class="buttonImage" id="size_img">
+        </div>
+        <div class="button" style="right:140px;" id="hide">
+            <img src="HideButton.png" alt="Hide" class="buttonImage">
+        </div>
+    </div>
+    <div class="modal" id="modal_1">
+        <div class="popup" id="popup_1">
+
+            <div class="option">
+                <h3 class="option_text">Night Mode:</h3>
+
+                <div class="switch" id="night_mode">
+                    <div class="circle" id="night_mode_circle"></div>
+                </div>
+
+            </div>
+
+            <div class="button" id="close_popup" style="position:absolute; top:10px;">
+                <img src="CloseButton.png" alt="Close" class="buttonImage">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

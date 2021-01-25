@@ -36,11 +36,10 @@ namespace Optimade
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(951, 674);
+            this.ClientSize = new System.Drawing.Size(1000, 1000);
             this.ControlBox = false;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Optimade";
-            this.ShowIcon = false;
             this.Text = "Form1";
             this.ResumeLayout(false);
 
