@@ -15,7 +15,7 @@ namespace Optimade
 {
     public partial class Optimade : Form
     {
-
+        
         public ChromiumWebBrowser chromeBrowser;
 
         public void InitializeChromium()
@@ -29,7 +29,7 @@ namespace Optimade
             this.Controls.Add(chromeBrowser);
             chromeBrowser.Dock = DockStyle.Fill;
         }
-
+        
 
         public Optimade()
         {
