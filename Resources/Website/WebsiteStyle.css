@@ -57,7 +57,14 @@
     font-family: Verdana;
     color: white;
     margin-left: 80px;
-    cursor:pointer;
+    cursor: pointer;
+
+    /*Makes the object un-draggable*/
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .modal {

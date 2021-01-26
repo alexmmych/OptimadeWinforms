@@ -27,6 +27,7 @@ namespace Optimade
             CefSharp.chromeBrowser.Dock = DockStyle.Fill;
         }
 
+
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         static extern IntPtr CreateRoundRectRgn
             (int nLeftRect,     // x-coordinate of upper-left corner.
@@ -37,42 +38,9 @@ namespace Optimade
             int nHeightEllipse // height of ellipse
             );
 
-        private bool dragging = false;
-        private Point dragCursorPoint;
-        private Point dragFormPoint;
-
         protected override void OnActivated(EventArgs e)
         {
             this.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
-        }
-
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-
-            dragCursorPoint = Cursor.Position;
-
-            Console.WriteLine("Cursor Y:" + " " + (dragCursorPoint.Y - this.Top));
-
-            if (dragCursorPoint.Y - this.Top <= 50)
-            {
-                dragging = true;
-                dragFormPoint = this.Location;
-            }
-
-        }
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            if (dragging)
-            {
-                Point dif = Point.Subtract(Cursor.Position, new Size(dragCursorPoint));
-                this.Location = Point.Add(dragFormPoint, new Size(dif));
-            }
-        }
-
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
-            dragging = false;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -80,13 +48,6 @@ namespace Optimade
             Cef.Shutdown();
         }
 
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape)
-            {
-                Application.Exit();
-            }
-        }
     }
 
     public class CefSharp
@@ -111,14 +72,37 @@ namespace Optimade
             // Create a browser component
             chromeBrowser = new ChromiumWebBrowser(@"file:///C:/C%23/Optimade/Resources/Website/Website.html");
 
-            CefSharp.chromeBrowser.Paint += ChromeBrowser_Paint;
+            CefSharp.chromeBrowser.JavascriptMessageReceived += OnBrowserJavascriptMessageReceived;
+            CefSharp.chromeBrowser.FrameLoadEnd += OnFrameLoadEnd;
         }
 
-        private void ChromeBrowser_Paint(object sender, PaintEventArgs e)
+        private void OnFrameLoadEnd(object sender, FrameLoadEndEventArgs e)
         {
-            Console.WriteLine("Browser painted");
+            if (e.Frame.IsMain)
+            {
+                //In the main frame we inject some javascript that's run on mouseUp
+                //You can hook any javascript event you like.
+                CefSharp.chromeBrowser.ExecuteScriptAsync(@"
+                document.getElementById('caption').onmousedown = function () {
+                    CefSharp.PostMessage('drag');
+                }
+                document.getElementById('caption').onmouseup = function () {
+                    CefSharp.PostMessage('stop');
+                }");
+            }
         }
+        private void OnBrowserJavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
+        {
+            if (e.Message.ToString() == "drag")
+            {
+                Console.WriteLine("Dragging");
+            }
 
+            if (e.Message.ToString() == "stop")
+            {
+                Console.WriteLine("Stop");
+            }
+        }
     }
 }
 

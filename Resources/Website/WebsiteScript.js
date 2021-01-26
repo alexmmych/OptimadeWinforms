@@ -8,11 +8,13 @@ function init() {
     document.getElementById("hide").addEventListener("click", hidden);
     document.getElementById("settings").addEventListener("click", settings);
 
+
     NightMode = document.getElementById("night_mode");
     NightMode.addEventListener("click", switch_state);
 
     document.getElementById("close_popup").addEventListener("click",close_popup);
 }
+
 
 function quit() {
     window.close();
