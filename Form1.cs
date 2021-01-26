@@ -60,20 +60,6 @@ namespace Optimade
         }
         private void OnBrowserJavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
         {
-            if (e.Message.ToString() == "drag")
-            {
-                Console.WriteLine("Clicked");
-            }
-
-            if (e.Message.ToString() == "move")
-            { 
-                Console.WriteLine("Dragging");
-            }
-
-            if (e.Message.ToString() == "stop")
-            {
-                Console.WriteLine("Stop");
-            }
              
         }
 
@@ -152,31 +138,7 @@ namespace Optimade
             {
                 //In the main frame we inject some javascript that's run on mouseUp
                 //You can hook any javascript event you like.
-                CefSharp.chromeBrowser.ExecuteScriptAsync(@"
-                var dragging = false;
-                var caption = document.getElementById('caption');
-                
-                function stopDrag()
-                {
-                    if (dragging == true) {
-                        dragging = false;
-                        CefSharp.PostMessage('stop');
-                    }
-                }
-
-                caption.onmousedown = function () {
-                    dragging = true;
-                    CefSharp.PostMessage('drag');
-
-                    caption.addEventListener('mouseleave',stopDrag)
-                }
-
-                caption.onmousemove = function () {
-                        if (dragging == true) {
-                            CefSharp.PostMessage('move');
-                        }
-                }
-                caption.addEventListener('mouseup',stopDrag)");
+                CefSharp.chromeBrowser.ExecuteScriptAsync(@"");
             }
         }
 
