@@ -38,9 +38,13 @@ namespace Optimade
             Browser.chromeBrowser.Dock = DockStyle.Fill;
 
             Browser.chromeBrowser.IsBrowserInitializedChanged += ChromeBrowser_IsBrowserInitializedChanged;
-
+            Browser.JavascriptMessageChanged += OnJavascriptMessage;
         }
 
+        private void OnJavascriptMessage(object sender, JavascriptMessageChangedArgs args)
+        {
+            Console.WriteLine(args.msg);
+        }
 
         private void ChromeBrowser_IsBrowserInitializedChanged(object sender, EventArgs args)
         {

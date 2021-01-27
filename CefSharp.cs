@@ -14,15 +14,13 @@ namespace Optimade
     {
         public ChromiumWebBrowser chromeBrowser;
 
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        static extern IntPtr CreateRoundRectRgn
-            (int nLeftRect,     // x-coordinate of upper-left corner.
-            int nTopRect,      // y-coordinate of upper-left corner
-            int nRightRect,    // x-coordinate of lower-right corner
-            int nBottomRect,   // y-coordinate of lower-right corner
-            int nWidthEllipse, // width of ellipse
-            int nHeightEllipse // height of ellipse
-            );
+        public event EventHandler<JavascriptMessageChangedArgs> JavascriptMessageChanged;
+
+        protected virtual void OnJavascriptMessage(JavascriptMessageChangedArgs e)
+        {
+            EventHandler<JavascriptMessageChangedArgs> handler = JavascriptMessageChanged;
+            handler?.Invoke(this, e);
+        }
 
         public CefSharp()
         {
@@ -42,33 +40,22 @@ namespace Optimade
             Hidden
         }
 
-        public Messages JavaScriptMessage;
+        private Messages JavaScriptMessage;
 
         private void OnBrowserJavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
         {
             JavaScriptMessage = (Messages)(int)e.Message;
 
-            switch (JavaScriptMessage)
-            {
-                case Messages.Maximized:
-                    {
-                        Console.WriteLine("Maximized");
-                        break;
-                    }
-                case Messages.Minimized:
-                    {
-                        Console.WriteLine("Minimized");
-                        break;
-                    }
-                case Messages.Hidden:
-                    {
-                        Console.WriteLine("Hidden");
-                        break;
-                    }
+            JavascriptMessageChangedArgs args = new JavascriptMessageChangedArgs();
+            args.msg = JavaScriptMessage;
 
-            }
+            OnJavascriptMessage(args);
         }
 
 
+    }
+    public class JavascriptMessageChangedArgs : EventArgs
+    {
+        public CefSharp.Messages msg { get; set; }
     }
 }
