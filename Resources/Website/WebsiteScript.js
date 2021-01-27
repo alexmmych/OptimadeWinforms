@@ -1,11 +1,12 @@
 var maximized = false;
 var activated = false;
 var NightMode;
+var HideEnum = 2;
 
 function init() {
     document.getElementById("close").addEventListener("click", quit);
-    document.getElementById("size").addEventListener("click", resize);
-    document.getElementById("hide").addEventListener("click", hidden);
+    document.getElementById("size").addEventListener("click", size);
+    document.getElementById("hide").addEventListener("click", hide);
     document.getElementById("settings").addEventListener("click", settings);
 
 
@@ -20,7 +21,7 @@ function quit() {
     window.close();
 }
 
-function resize() {
+function size() {
     if (maximized == true) {
         document.getElementById("size_img").src = "MaximizeButton.png";
         maximized = false;
@@ -29,23 +30,13 @@ function resize() {
         document.getElementById("size_img").src = "MinimizeButton.png";
         maximized = true;
     }
-    window.size();
+    CefSharp.PostMessage(maximized ? 1 : 0);
 }
 
-function change() {
-    if (maximized == true) {
-        document.getElementById("size_img").src = "MaximizeButton.png";
-        maximized = false;
-    }
-    else {
-        document.getElementById("size_img").src = "MinimizeButton.png";
-        maximized = true;
-    }
+function hide() {
+    CefSharp.PostMessage(HideEnum);
 }
 
-function hidden() {
-    window.hide();
-}
 
 function settings() {
     document.getElementById("modal_1").style.display = "flex";

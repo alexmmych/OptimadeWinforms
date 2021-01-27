@@ -22,34 +22,37 @@ namespace Optimade
         const int WM_LBUTTONDOWN = 0x0201;
         const int WM_LBUTTONUP = 0x0202;
 
+        public CefSharp Browser;
+
         public Optimade()
         {
             InitializeComponent();
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-            CefSharp cef = new CefSharp();
+            Browser = new CefSharp();
 
-            CefSharp.chromeBrowser.DragHandler = new DragDropHandler();
-
-            CefSharp.chromeBrowser.IsBrowserInitializedChanged += ChromeBrowser_IsBrowserInitializedChanged;
-            CefSharp.chromeBrowser.JavascriptMessageReceived += OnBrowserJavascriptMessageReceived;
+            Browser.chromeBrowser.DragHandler = new DragDropHandler();
 
             // Add it to the form and fill it to the form window.
-            this.Controls.Add(CefSharp.chromeBrowser);
-            CefSharp.chromeBrowser.Dock = DockStyle.Fill;
+            this.Controls.Add(Browser.chromeBrowser);
+            Browser.chromeBrowser.Dock = DockStyle.Fill;
+
+            Browser.chromeBrowser.IsBrowserInitializedChanged += ChromeBrowser_IsBrowserInitializedChanged;
+
         }
+
 
         private void ChromeBrowser_IsBrowserInitializedChanged(object sender, EventArgs args)
         {
 
 
-            ChromeWidgetMessageInterceptor.SetupLoop(CefSharp.chromeBrowser, (message) =>
+            ChromeWidgetMessageInterceptor.SetupLoop(Browser.chromeBrowser, (message) =>
             {
                 if (message.Msg == WM_LBUTTONDOWN)
                 {
                     Point point = new Point(message.LParam.ToInt32());
 
-                    if (((DragDropHandler)CefSharp.chromeBrowser.DragHandler).draggableRegion.IsVisible(point))
+                    if (((DragDropHandler)Browser.chromeBrowser.DragHandler).draggableRegion.IsVisible(point))
                     {
                         ReleaseCapture();
                         SendHandleMessage();
@@ -57,10 +60,6 @@ namespace Optimade
                 }
             });
 
-        }
-        private void OnBrowserJavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
-        {
-             
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -105,46 +104,6 @@ namespace Optimade
         public delegate void SendHandleMessageDelegate();
     
 }
-
-
-    public class CefSharp
-    {
-        public static ChromiumWebBrowser chromeBrowser;
-
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        static extern IntPtr CreateRoundRectRgn
-            (int nLeftRect,     // x-coordinate of upper-left corner.
-            int nTopRect,      // y-coordinate of upper-left corner
-            int nRightRect,    // x-coordinate of lower-right corner
-            int nBottomRect,   // y-coordinate of lower-right corner
-            int nWidthEllipse, // width of ellipse
-            int nHeightEllipse // height of ellipse
-            );
-
-        public CefSharp()
-        {
-            CefSettings settings = new CefSettings();
-            // Initialize cef with the provided settings
-            Cef.Initialize(settings);
-            // Create a browser component
-            chromeBrowser = new ChromiumWebBrowser(@"file:///C:/C%23/Optimade/Resources/Website/Website.html");
-
-            CefSharp.chromeBrowser.FrameLoadEnd += OnFrameLoadEnd;
-        }
-
-        private void OnFrameLoadEnd(object sender, FrameLoadEndEventArgs e)
-        {
-            if (e.Frame.IsMain)
-            {
-                //In the main frame we inject some javascript that's run on mouseUp
-                //You can hook any javascript event you like.
-                CefSharp.chromeBrowser.ExecuteScriptAsync(@"");
-            }
-        }
-
-             
-    }
-    
 
 }
 
