@@ -1,7 +1,11 @@
 var maximized = false;
 var activated = false;
 var NightMode;
-var HideEnum = 2;
+
+const Messages = {
+    HIDE: 2,
+    CLOSE: 3,
+}
 
 function init() {
     document.getElementById("close").addEventListener("click", quit);
@@ -9,6 +13,10 @@ function init() {
     document.getElementById("hide").addEventListener("click", hide);
     document.getElementById("settings").addEventListener("click", settings);
 
+    window.onkeydown = function (e) {
+        if (e.key === "Escape")
+        CefSharp.PostMessage(Messages.CLOSE);
+    }
 
     NightMode = document.getElementById("night_mode");
     NightMode.addEventListener("click", switch_state);
@@ -34,9 +42,8 @@ function size() {
 }
 
 function hide() {
-    CefSharp.PostMessage(HideEnum);
+    CefSharp.PostMessage(Messages.HIDE);
 }
-
 
 function settings() {
     document.getElementById("modal_1").style.display = "flex";

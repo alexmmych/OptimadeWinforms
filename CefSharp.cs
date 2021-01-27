@@ -29,7 +29,8 @@ namespace Optimade
         {
             Minimized,
             Maximized,
-            Hidden
+            Hidden,
+            Close
         }
 
         public CefSharp()

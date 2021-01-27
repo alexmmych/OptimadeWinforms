@@ -73,6 +73,11 @@ namespace Optimade
                         }));
                         break;
                     }
+                case CefSharp.Messages.Close:
+                    {
+                        Application.Exit();
+                        break;
+                    }
 
             }
         }
@@ -133,10 +138,7 @@ namespace Optimade
 
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            Cef.Shutdown();
-        }
+  
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
