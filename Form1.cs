@@ -116,11 +116,21 @@ namespace Optimade
         protected override void OnSizeChanged(EventArgs e)
         {
             this.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
+
+            //If statement is present here because OnSizeChanged triggers before CefSharp is initialized.
             if (Browser != null)
             {
                 Browser.chromeBrowser.Size = this.Size;
+
+                //Compensates for automatic resizing upon dragging the window when in fullscreen.
+                if (this.WindowState == FormWindowState.Normal)
+                {
+                    Browser.chromeBrowser.ExecuteScriptAsyncWhenPageLoaded(@"
+                    document.getElementById('size_img').src = 'MaximizeButton.png';
+                    maximized = false;");
+                }
             }
-            Console.WriteLine("Window size changed");
+
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
