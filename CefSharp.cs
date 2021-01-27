@@ -14,12 +14,22 @@ namespace Optimade
     {
         public ChromiumWebBrowser chromeBrowser;
 
+        //Activates when Javascript posts a message to CefSharp.
         public event EventHandler<JavascriptMessageChangedArgs> JavascriptMessageChanged;
 
+        //Retrieves the Javascript message.
         protected virtual void OnJavascriptMessage(JavascriptMessageChangedArgs e)
         {
             EventHandler<JavascriptMessageChangedArgs> handler = JavascriptMessageChanged;
             handler?.Invoke(this, e);
+        }
+
+        //Contains the types of messages Javascript can send to CefSharp.
+        public enum Messages
+        {
+            Minimized,
+            Maximized,
+            Hidden
         }
 
         public CefSharp()
@@ -33,29 +43,23 @@ namespace Optimade
             chromeBrowser.JavascriptMessageReceived += OnBrowserJavascriptMessageReceived;
         }
 
-        public enum Messages
-        {
-            Minimized,
-            Maximized,
-            Hidden
-        }
-
-        private Messages JavaScriptMessage;
-
+        //Loads the message into the event argument.
         private void OnBrowserJavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
         {
-            JavaScriptMessage = (Messages)(int)e.Message;
-
             JavascriptMessageChangedArgs args = new JavascriptMessageChangedArgs();
-            args.msg = JavaScriptMessage;
 
+            //Gets the message and transforms it to the 'Messages' enum.
+            args.msg = (Messages)(int)e.Message;
             OnJavascriptMessage(args);
         }
 
 
     }
+
+    //JavascriptMessageChanged arguments.
     public class JavascriptMessageChangedArgs : EventArgs
     {
+        //Gets the message sent by Javascript.
         public CefSharp.Messages msg { get; set; }
     }
 }

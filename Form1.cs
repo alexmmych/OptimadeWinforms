@@ -16,12 +16,13 @@ namespace Optimade
 {
     public partial class Optimade : Form
     {
-        // Messages
+        //Wndproc Messages
         const int WM_MOUSEMOVE = 0x0200;
         const int WM_MOUSELEAVE = 0x02A3;
         const int WM_LBUTTONDOWN = 0x0201;
         const int WM_LBUTTONUP = 0x0202;
 
+        //The initialized browser instance.
         public CefSharp Browser;
 
         public Optimade()
@@ -41,14 +42,43 @@ namespace Optimade
             Browser.JavascriptMessageChanged += OnJavascriptMessage;
         }
 
+        //Intercepts Javascript messages and acts accordingly.
         private void OnJavascriptMessage(object sender, JavascriptMessageChangedArgs args)
         {
             Console.WriteLine(args.msg);
+
+            switch (args.msg)
+            {
+                case CefSharp.Messages.Maximized:
+                    {
+                        this.Invoke(new MethodInvoker(delegate ()
+                        {
+                            this.WindowState = FormWindowState.Maximized;
+                        }));
+                        break;
+                    }
+                case CefSharp.Messages.Minimized:
+                    {
+                        this.Invoke(new MethodInvoker(delegate ()
+                        {
+                            this.WindowState = FormWindowState.Normal;
+                        }));
+                        break;
+                    }
+                case CefSharp.Messages.Hidden:
+                    {
+                        this.Invoke(new MethodInvoker(delegate ()
+                        {
+                            this.WindowState = FormWindowState.Minimized;
+                        }));
+                        break;
+                    }
+
+            }
         }
 
         private void ChromeBrowser_IsBrowserInitializedChanged(object sender, EventArgs args)
         {
-
 
             ChromeWidgetMessageInterceptor.SetupLoop(Browser.chromeBrowser, (message) =>
             {
@@ -66,11 +96,6 @@ namespace Optimade
 
         }
 
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            Console.WriteLine("Mouse moved");
-        }
-
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         static extern IntPtr CreateRoundRectRgn
             (int nLeftRect,     // x-coordinate of upper-left corner.
@@ -81,9 +106,21 @@ namespace Optimade
             int nHeightEllipse // height of ellipse
             );
 
+        //Makes the window have it's elliptical shape.
         protected override void OnActivated(EventArgs e)
         {
             this.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
+        }
+
+        //Updates the window and browser's shape and size.
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            this.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
+            if (Browser != null)
+            {
+                Browser.chromeBrowser.Size = this.Size;
+            }
+            Console.WriteLine("Window size changed");
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
