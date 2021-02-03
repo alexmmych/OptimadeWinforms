@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Optimade", "Optimade.csproj", "{21D2687E-C49B-46B7-A00E-64FCFD85181A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21D2687E-C49B-46B7-A00E-64FCFD85181A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21D2687E-C49B-46B7-A00E-64FCFD85181A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21D2687E-C49B-46B7-A00E-64FCFD85181A}.Debug|x64.ActiveCfg = Debug|x64
+		{21D2687E-C49B-46B7-A00E-64FCFD85181A}.Debug|x64.Build.0 = Debug|x64
+		{21D2687E-C49B-46B7-A00E-64FCFD85181A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21D2687E-C49B-46B7-A00E-64FCFD85181A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21D2687E-C49B-46B7-A00E-64FCFD85181A}.Release|x64.ActiveCfg = Release|x64
+		{21D2687E-C49B-46B7-A00E-64FCFD85181A}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61676C9A-663F-4DC7-BBAC-1244AF294DA8}
+	EndGlobalSection
+EndGlobal
