@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using CefSharp;
-using CefSharp.Enums;
-using CefSharp.WinForms;
+
+using Xilium.CefGlue;
+using Xilium.CefGlue.WindowsForms;
 
 namespace Optimade
 {

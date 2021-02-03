@@ -6,10 +6,12 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
     <Platforms>AnyCPU;x64</Platforms>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CefSharp.WinForms" Version="87.1.132" />
+    <PackageReference Include="Unofficial.CefGlue.Core" Version="3.2883.1539" />
   </ItemGroup>
 
 </Project>
