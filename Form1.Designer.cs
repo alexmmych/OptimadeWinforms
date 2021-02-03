@@ -41,7 +41,7 @@ namespace Optimade
             this.ControlBox = false;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Optimade";
-            this.Text = "Form1";
+            this.Text = "Optimade";
             this.ResumeLayout(false);
 
         }
