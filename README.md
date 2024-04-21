@@ -10,7 +10,6 @@ Optimade is a modern rebuild of a C# WinForms application that utilizes CefSharp
 - Rounded rectangle window design.
 - Integration of CefSharp for loading an HTML site.
 - JavaScript and C# listeners for controlling the window behavior.
-- Custom window painting to replace the default Windows window appearance.
 
 ## Technologies Used
 
