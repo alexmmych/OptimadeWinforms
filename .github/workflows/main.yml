@@ -20,6 +20,9 @@ jobs:
         nuget-version: '5.x'
     - run: nuget install Microsoft.Windows.Compatibility -Version 5.0.2 -OutputDirectory C:\Microsoft.Windows.Compatibility
 
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
     - name: Build
       run: |
         nuget restore Optimade.sln
