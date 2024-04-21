@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
 using CefSharp;
-using CefSharp.Enums;
 using CefSharp.WinForms;
+using System.IO;
+using System.Reflection;
 
 namespace Optimade
 {
@@ -39,7 +35,14 @@ namespace Optimade
             // Initialize cef with the provided settings
             Cef.Initialize(settings);
             // Create a browser component
-            chromeBrowser = new ChromiumWebBrowser(@"file:///C:/C%23/Optimade/Resources/Website/Website.html");
+
+            string executablePath = Assembly.GetEntryAssembly().Location;
+            string executableDirectory = Path.GetDirectoryName(executablePath);
+            string htmlSite = "\\Resources\\Website\\Website.html";
+
+            string uriHTML = executableDirectory + htmlSite;
+
+            chromeBrowser = new ChromiumWebBrowser(uriHTML);
 
             chromeBrowser.JavascriptMessageReceived += OnBrowserJavascriptMessageReceived;
         }

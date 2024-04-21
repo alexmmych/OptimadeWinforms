@@ -2,15 +2,62 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net481-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CefSharp.WinForms" Version="98.1.210" />
+    <None Remove="Logo.ico" />
+    <None Remove="Resources\Logo.ico" />
+    <None Remove="Resources\Website\CloseButton.png" />
+    <None Remove="Resources\Website\HideButton.png" />
+    <None Remove="Resources\Website\Logo.png" />
+    <None Remove="Resources\Website\MaximizeButton.png" />
+    <None Remove="Resources\Website\MinimizeButton.png" />
+    <None Remove="Resources\Website\Website.html" />
+    <None Remove="Resources\Website\WebsiteScript.js" />
+    <None Remove="Resources\Website\WebsiteStyle.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Website\CloseButton.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Website\HideButton.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Website\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Website\MaximizeButton.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Website\MinimizeButton.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Website\Website.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Website\WebsiteScript.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Website\WebsiteStyle.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CefSharp.Common" Version="123.0.60" />
+    <PackageReference Include="CefSharp.WinForms" Version="123.0.60" />
   </ItemGroup>
 
 </Project>
